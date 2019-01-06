@@ -9,9 +9,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.HashSet;
+import java.util.*;
 import java.util.List;
-import java.util.Random;
 
 public class Lucky extends JFrame implements ActionListener{
 
@@ -25,23 +24,47 @@ public class Lucky extends JFrame implements ActionListener{
         super("抽奖界面");
         this.setBounds(100,100,1000,650);
 
-        this.setLayout(new BorderLayout());
-        button.setFont(new Font("Courier",Font.PLAIN,22));
+        JPanel p = new JPanel() {
+            public void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                ImageIcon ii = new ImageIcon("background.jpg");
+                g.drawImage(ii.getImage(), 0, 0, getWidth(), getHeight(), ii.getImageObserver());
+            }
+        };
+        this.add(p);
+//        setSize(300, 300);
+//        setVisible(true);
+
+        p.setLayout(new BorderLayout());
+        button.setFont(new Font("Courier",Font.PLAIN,32));
         button.setHorizontalAlignment(JButton.CENTER);
         button.setVerticalAlignment(JButton.CENTER);
+        button.setForeground(Color.white);
+        button.setOpaque(false);
+        button.setBorder(BorderFactory.createEmptyBorder(0,0, 0, 0));
+        button.setContentAreaFilled(false);
+        button.setFocusPainted(false);
+        button.setRolloverEnabled(true);
+        button.setContentAreaFilled(false);
         button.addActionListener(this);
-        this.add(BorderLayout.SOUTH, button);
+        p.add(BorderLayout.SOUTH, button);
 
         screen.setFont(new Font("Courier",Font.PLAIN,22));
         screen.setHorizontalAlignment(JLabel.CENTER);
         screen.setVerticalAlignment(JLabel.CENTER);
+        screen.setForeground(Color.white);
         JScrollPane sp = new JScrollPane(screen);
-        this.add(BorderLayout.CENTER, sp);
+        sp.setBorder(null);
+        sp.setOpaque(false);
+        sp.getViewport().setOpaque(false);
+        p.add(BorderLayout.CENTER, sp);
 
-        title.setFont(new Font("Courier",Font.PLAIN,22));
+        title.setFont(new Font("Courier",Font.BOLD,42));
+        title.setForeground(Color.white);
         title.setHorizontalAlignment(JLabel.CENTER);
         title.setVerticalAlignment(JLabel.CENTER);
-        this.add(BorderLayout.NORTH, title);
+        title.setOpaque(false);
+        p.add(BorderLayout.NORTH, title);
 
         this.setVisible(true);
         this.setLocationRelativeTo(null);
@@ -58,16 +81,23 @@ public class Lucky extends JFrame implements ActionListener{
             flag = false;
             RuleItem ruleItem = CacheUtil.ruleStack.pop();
             String name = ruleItem.getName();
-            title.setText(name);
-            title.setText(name + "本次结果");
+            title.setText("========= " + name + " =========");
             FileUtil.writeFile(CacheUtil.fileName,"\r\n******" + name + "******\r\n");
             for (int i = 0;i < indexResult.length; i++) {
                 CacheUtil.processlist.add(CacheUtil.lotteryFile.get(indexResult[i]));
                 FileUtil.writeFile(CacheUtil.fileName,CacheUtil.lotteryFile.get(indexResult[i]) + "\r\n");
             }
+            List<String> temp = new ArrayList<>();
+            Set<Integer> tempset = new HashSet<>();
             for (int i = 0;i < indexResult.length; i++) {
-                CacheUtil.lotteryFile.remove(i);
+                tempset.add(indexResult[i]);
             }
+            for(int i = 0; i < CacheUtil.lotteryFile.size(); i++){
+                if(!tempset.contains(i)){
+                    temp.add(CacheUtil.lotteryFile.get(i));
+                }
+            }
+            CacheUtil.lotteryFile = temp;
 
             FileUtil.writeFile(CacheUtil.fileName,"\r\n");
             if(CacheUtil.ruleStack.size() == 0){

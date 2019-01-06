@@ -25,7 +25,14 @@ public class FileConfig extends JFrame implements ActionListener{
     public static String filePath;
 
     public FileConfig(){
-        super("请选择抽奖名单——————软件有效期至：" + new Date(Constant.EXPIRED_TIME));
+        super("请选择抽奖名单");
+//        ImageIcon img=new ImageIcon("D:/Code/woophee-lottery/background.jpg");
+//        JLabel imgLabel = new JLabel(img);
+//        this.getLayeredPane().add(imgLabel, new Integer(Integer.MIN_VALUE));
+//        imgLabel.setBounds(0,0,img.getIconWidth(), img.getIconHeight());
+//        JPanel imagePanel = (JPanel) this.getContentPane();
+//        imagePanel.setOpaque(false);
+
         Container c = this.getContentPane();
         this.setLayout(new GridBagLayout());
         this.setSize(new Dimension(1000,700));
