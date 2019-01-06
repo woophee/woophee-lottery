@@ -127,7 +127,6 @@ public class RuleConfig extends JFrame implements ActionListener{
     }
 
 
-    @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == saveButton){
             String value1 = jTextField1.getText();

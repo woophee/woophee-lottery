@@ -53,7 +53,6 @@ public class Lucky extends JFrame implements ActionListener{
         });
     }
 
-    @Override
     public void actionPerformed(ActionEvent e) {
         if("停止".equals(button.getText())) {
             flag = false;

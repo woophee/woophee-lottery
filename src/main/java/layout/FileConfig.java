@@ -1,6 +1,7 @@
 package layout;
 
 import utils.CacheUtil;
+import utils.Constant;
 import utils.FileUtil;
 
 import javax.swing.*;
@@ -11,6 +12,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 import java.util.HashSet;
 
 public class FileConfig extends JFrame implements ActionListener{
@@ -23,7 +25,7 @@ public class FileConfig extends JFrame implements ActionListener{
     public static String filePath;
 
     public FileConfig(){
-        super("请选择抽奖名单");
+        super("请选择抽奖名单——————软件有效期至：" + new Date(Constant.EXPIRED_TIME));
         Container c = this.getContentPane();
         this.setLayout(new GridBagLayout());
         this.setSize(new Dimension(1000,700));
@@ -91,7 +93,6 @@ public class FileConfig extends JFrame implements ActionListener{
         return gridNextButton;
     }
 
-    @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == readButton){
             JFileChooser fileChooser = new JFileChooser();
